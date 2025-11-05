@@ -1,5 +1,5 @@
 # Start from the minimal UBI9 image
-FROM registry.redhat.io/ubi9/ubi-minimal:latest
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 # Copy the script into the container
 COPY hello.sh /usr/local/bin/hello.sh
