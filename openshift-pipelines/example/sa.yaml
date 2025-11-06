@@ -1,0 +1,7 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: pipeline
+secrets:
+  - name: registry-token
+  - name: git-repo-token
