@@ -62,7 +62,7 @@ spec:
     - name: buildah
       params:
         - name: IMAGE
-          value: '$(params.IMAGE_FQDN):$(params.IMAGE_TAG),$(params.IMAGE_FQDN):latest'
+          value: '$(params.IMAGE_FQDN):$(params.IMAGE_TAG)'
         - name: DOCKERFILE
           value: ./Dockerfile
         - name: BUILD_ARGS
@@ -75,7 +75,7 @@ spec:
         - name: FORMAT
           value: oci
         - name: BUILD_EXTRA_ARGS
-          value: ''
+          value: '--tag=$(params.IMAGE_FQDN):latest'
         - name: PUSH_EXTRA_ARGS
           value: ''
         - name: SKIP_PUSH
