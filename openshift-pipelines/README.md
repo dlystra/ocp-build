@@ -5,11 +5,7 @@
 # OpenShift-Pipelines Operator Install
 
 ```
-oc apply -f operator-install/ns.yaml
-
-oc apply -f operator-install/operatorgroup.yaml
-
-oc apply -f operator-install/subscription.yaml
+oc apply -f operator-install/
 
 oc patch console.operator cluster --type json -p '[{"op": "add", "path": "/spec/plugins", "value": ["pipelines-console-plugin"]}]'
 ```
@@ -24,15 +20,9 @@ export IMAGE_FQDN="<image FQDN>"
 export IMAGE_TAG="<image tag>"
 export DOCKERCONFIG="<path to .dockerconfig.json>"
 
-oc apply -f example/ns.yaml
+oc apply -f example/
 
-oc apply -f example/sa.yaml
-
-oc apply -f example/rb.yaml
-
-oc apply -f example/pipeline.yaml
-
-oc apply -f example/pvc.yaml
+oc project openshift-pipelines-example
 
 oc create secret generic git-repo-token \
   --type=kubernetes.io/basic-auth \
