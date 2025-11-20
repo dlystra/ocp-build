@@ -10,7 +10,7 @@ spec:
       type: string  
     - description: Image FQDN
       name: IMAGE_FQDN
-      type: string  
+      type: string
     - description: Desired image tag
       name: IMAGE_TAG
       type: string
@@ -62,7 +62,7 @@ spec:
     - name: buildah
       params:
         - name: IMAGE
-          value: '$(params.IMAGE_FQDN):$(params.IMAGE_TAG)'
+          value: '$(params.IMAGE_FQDN):$(params.IMAGE_TAG),$(params.IMAGE_FQDN):latest'
         - name: DOCKERFILE
           value: ./Dockerfile
         - name: BUILD_ARGS

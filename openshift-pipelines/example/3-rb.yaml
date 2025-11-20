@@ -25,3 +25,74 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: pipelines-scc-clusterrole
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tekton-triggers-reader
+  namespace: openshift-pipelines-example
+rules:
+  - apiGroups:
+      - triggers.tekton.dev
+    resources:
+      - triggertemplates
+      - triggerbindings
+      - eventlisteners
+      - triggers
+      - interceptors
+    verbs:
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tekton-pipeline-triggers-binding
+  namespace: openshift-pipelines-example
+subjects:
+  - kind: ServiceAccount
+    name: pipeline
+    namespace: openshift-pipelines-example
+roleRef:
+  kind: Role
+  name: tekton-triggers-reader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tekton-pipeline-writer
+  namespace: openshift-pipelines-example
+rules:
+  - apiGroups:
+      - tekton.dev
+    resources:
+      - pipelineruns
+      - taskruns
+      - runs # Needed for custom tasks/runs
+    verbs:
+      - create
+      - list
+      - get
+      - watch
+  
+  - apiGroups: [""]
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tekton-pipeline-writer-binding
+  namespace: openshift-pipelines-example
+subjects:
+  - kind: ServiceAccount
+    name: pipeline 
+    namespace: openshift-pipelines-example
+roleRef:
+  kind: Role
+  name: tekton-pipeline-writer
+  apiGroup: rbac.authorization.k8s.io

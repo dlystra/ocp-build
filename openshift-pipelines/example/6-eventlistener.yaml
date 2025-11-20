@@ -1,0 +1,25 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: example-app-listener
+spec:
+  serviceAccountName: pipeline 
+  triggers:
+    - name: git-push-trigger
+      bindings:
+        - ref: github-push-binding 
+      template:
+        ref: example-pipeline-template 
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: example-app-listener-route
+spec:
+  to:
+    kind: Service
+    name: el-example-app-listener 
+  port:
+    targetPort: 8080 
+  tls:
+    termination: edge

@@ -7,7 +7,7 @@ COPY hello.sh /usr/local/bin/hello.sh
 # Make the script executable
 RUN chmod +x /usr/local/bin/hello.sh
 
-RUN microdnf -y install bind-utils
+RUN microdnf -y install bind-utils tree
 
 # Set the script as the entrypoint
 ENTRYPOINT ["/usr/local/bin/hello.sh"]

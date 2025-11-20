@@ -1,0 +1,39 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: example-pipeline-template
+  namespace: openshift-pipelines-example
+spec:
+  params:
+    - name: git-repo-url
+    - name: git-revision
+    - name: image-fqdn
+      default: ghcr.io/dlystra/ocp-build/ubi9-custom
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: example-pipeline-run-
+      spec:
+        params:
+          - name: SOURCE_URL
+            value: $(tt.params.git-repo-url)
+          - name: IMAGE_TAG
+            value: $(tt.params.git-revision)
+          - name: IMAGE_FQDN
+            value: $(tt.params.image-fqdn)
+        pipelineRef:
+          name: example-pipeline
+        serviceAccountName: pipeline
+        workspaces:
+          - name: source
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi
+          - name: rhel-entitlement
+            secret:
+              secretName: etc-pki-entitlement
