@@ -37,6 +37,10 @@ oc create secret generic registry-token \
   --from-file=.dockerconfigjson=${DOCKERCONFIG} \
   --type=kubernetes.io/dockerconfigjson
 
+oc annotate secret registry-token \
+  tekton.dev/docker-0="https://ghcr.io" \
+  -n openshift-pipelines-example
+
 oc get secret etc-pki-entitlement -n openshift-config-managed -o json | \
   jq 'del(.metadata.resourceVersion)' | jq 'del(.metadata.creationTimestamp)' | \
   jq 'del(.metadata.uid)' | jq 'del(.metadata.namespace)' | \
