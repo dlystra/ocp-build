@@ -5,7 +5,7 @@
 # OpenShift-Pipelines Operator Install
 
 ```
-oc apply -f operator-install/
+oc apply -f operator-install/install.yaml
 
 oc patch console.operator cluster --type json -p '[{"op": "add", "path": "/spec/plugins", "value": ["pipelines-console-plugin"]}]'
 ```
